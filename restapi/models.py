@@ -91,7 +91,7 @@ class VenueData(models.Model):
     postcode = models.CharField(max_length=100, blank=False)
     neighborhood = models.CharField(max_length=100, blank=True)
     capacity = models.IntegerField()
-    wheelchairavail = models.BooleanField(default=False)
+    wheelchairavail = models.BooleanField(default=False, verbose_name="Wheel Chair Availability")
     outdoorsitting =models.BooleanField(default=False)
     smookingavailability =models.BooleanField(default=False)
     micro_brewery =models.BooleanField(default=False)
