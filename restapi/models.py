@@ -83,7 +83,7 @@ class VenueData(models.Model):
     name = models.CharField(max_length=100, blank=False, verbose_name="Venue Name")
     description = models.CharField(max_length=100, blank=True, verbose_name="Venue Description")
     menu =JSONField(verbose_name="Wheel Chair Availability")
-    type = ArrayField(models.CharField(max_length=50, blank=True, verbose_name="Type")
+    type = ArrayField(models.CharField(max_length=50, blank=True, verbose_name="Type"))
     loc_lat = models.CharField(max_length=20, blank=True, verbose_name="Latitude") #Cordinates
     loc_lng = models.CharField(max_length=20, blank=True, verbose_name="Longitude")
     streetname = models.CharField(max_length=100, blank=False, verbose_name="Street Name")
@@ -104,6 +104,7 @@ class VenueData(models.Model):
     hits = models.IntegerField(verbose_name="Hits")
     created = models.DateTimeField(auto_now_add=True, verbose_name="Date Created")
     #user = models.ForeignKey(UseraccountData, on_delete=models.CASCADE)
+
     class Meta:
         ordering = ('created',)
         db_table = '"venuedata"'
