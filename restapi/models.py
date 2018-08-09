@@ -73,7 +73,7 @@ class VenueData(models.Model):
     OSMID = models.CharField(max_length=100, blank=True, verbose_name="OSM ID")
     name = models.CharField(max_length=100, blank=False, verbose_name="Venue Name")
     description = models.CharField(max_length=100, blank=True, verbose_name="Venue Description")
-    menu =JSONField(verbose_name="Wheel Chair Availability")
+    menu =JSONField(verbose_name="Menu")
     type = ArrayField(models.CharField(max_length=50, blank=True, verbose_name="Type"))
     loc_lat = models.CharField(max_length=20, blank=True, verbose_name="Latitude") #Cordinates
     loc_lng = models.CharField(max_length=20, blank=True, verbose_name="Longitude")
