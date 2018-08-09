@@ -100,7 +100,7 @@ class VenueData(models.Model):
     website = models.CharField(max_length=200, blank=True, verbose_name="Website Address")
     phonenumber = models.CharField(max_length=20, blank=False, verbose_name="Phone Number")
     email = models.EmailField(max_length=100, blank=True)
-    price_start = models.CharField(max_length=100, blank=True, verbose_name="Start Price
+    price_start = models.CharField(max_length=100, blank=True, verbose_name="Start Price")
     hits = models.IntegerField(verbose_name="Hits")
     created = models.DateTimeField(auto_now_add=True, verbose_name="Date Created")
     #user = models.ForeignKey(UseraccountData, on_delete=models.CASCADE)
