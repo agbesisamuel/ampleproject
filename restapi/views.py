@@ -10,26 +10,50 @@ from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.generics import RetrieveAPIView
-#from restapi.permissions import IsOwnerOrReadOnly
-#from rest_framework import permissions
 
-#for test login and authenticate
-# from rest_framework import status
-# from rest_framework.generics import RetrieveUpdateAPIView
-# from rest_framework.permissions import AllowAny, IsAuthenticated
-# from rest_framework.response import Response
-# from rest_framework.views import APIView
-#
-# from .renderers import UserJSONRenderer
-# from .serializers import (
-#     LoginSerializer, RegistrationSerializer, UserSerializer
-# )
 
-##
+
+#Sending email
+from django.core.mail import send_mail, BadHeaderError
+from django.conf import settings
+from django.http import HttpResponse, HttpResponseRedirect
+
+
+def email(request):
+
+    subject = 'Thank you for registering to our site'
+    message = ' it  means a world to us '
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = ['receiver@gmail.com',]
+
+    send_mail( subject, message, email_from, recipient_list )
+
+    return redirect('redirect to a new page')
+
+def send_email(request):
+    subject = request.POST.get('subject', 'Hello')
+    message = request.POST.get('message', 'How are you?')
+    from_email = request.POST.get('from_email', settings.EMAIL_HOST_USER)
+    #from_email = settings.EMAIL_HOST_USER
+    if subject and message and from_email:
+        try:
+            send_mail(subject, message, from_email, ['agbesisamuel@gmail.com'])
+            #send_mail(subject, message, from_email, ['agbesisamuel@gmail.com'], fail_silently=True)
+        except BadHeaderError:
+            return HttpResponse('Invalid header found.')
+        return HttpResponseRedirect('/contact/thanks/')
+    else:
+        # In reality we'd use a form class
+        # to get proper validation errors.
+        return HttpResponse('Make sure all fields are entered and valid.')
+
+
+def sendSimpleEmail(request,emailto):
+   res = send_mail("hello paul", "comment tu vas?", "ampleappdk@gmail.com", ['agbesisamuel@yahoo.com'])
+   return HttpResponse('%s'%res)
+###
 
 #for API Key Table
-
-
 class ApiKeyListView(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
                   generics.GenericAPIView):

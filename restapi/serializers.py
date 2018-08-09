@@ -16,8 +16,17 @@ class useraccountSerializer(serializers.ModelSerializer):
 
 #new
 class venueSerializer(serializers.ModelSerializer):
+    #Test
+    venuephoto = serializers.StringRelatedField(many=True)
+    # venuephoto = serializers.HyperlinkedRelatedField(
+    #     many=True,
+    #     read_only=True,
+    #     view_name='photo-detail'
+    # )
+    ###
     class Meta:
         model = VenueData
+        #fields = ('venueid', 'googleplacesId','foursquareplacesId','name','city', 'loc_lat','loc_lng','venuephoto')
         fields = '__all__'
 
 

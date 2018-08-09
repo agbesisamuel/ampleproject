@@ -30,6 +30,9 @@ urlpatterns = [
     url(r'^photo/$', views.PhotoDataListView.as_view()),
     url(r'^photo/(?P<pk>[0-9]+)/$', views.PhotoDataDetailView.as_view()),
 
+    url(r'^email/$', views.email), #, name='send_email'
+    url(r'^simpleemail/$', views.send_email),
+
     #test for login and authentication
     # url(r'^user/?$', UserRetrieveUpdateAPIView.as_view()),
     # url(r'^users/?$', RegistrationAPIView.as_view()),

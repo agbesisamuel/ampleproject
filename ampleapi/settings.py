@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 import datetime
 
+#For email
+from restapi.email_info import EMAIL_USE_TLS, EMAIL_HOST, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_PORT, EMAIL_BACKEND
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -34,6 +37,20 @@ DEBUG = True
 ALLOWED_HOSTS = ['aempleapp.herokuapp.com']
 #ALLOWED_HOSTS = []
 
+#For email
+EMAIL_BACKEND       = EMAIL_BACKEND
+EMAIL_USE_TLS       = EMAIL_USE_TLS
+EMAIL_HOST          = EMAIL_HOST
+EMAIL_HOST_USER     = EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+EMAIL_PORT          = EMAIL_PORT
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'secureYOUR-SERVER-NUMBER.hostgator.com'
+# EMAIL_PORT = '26'
+# EMAIL_HOST_USER = 'USER@YOURDOMAIN.COM'
+# EMAIL_HOST_PASSWORD = 'THE-EMAIL-ACCOUNT-PASSWORD'
+# EMAIL_USE_TLS = True
 
 # Application definition
 
@@ -51,7 +68,21 @@ INSTALLED_APPS = [
     'django_filters',
     'django_extensions',
 
+    #Social login
+
+    'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    'allauth.socialaccount.providers.facebook',
+    #'allauth.socialaccount.providers.google',
+
 ]
+#Social login
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -61,6 +92,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'ampleapi.urls'
@@ -76,6 +108,11 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                #social login
+                #'django.template.context_processors.request',
+                # 'social_django.context_processors.backends',
+                # 'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -83,6 +120,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ampleapi.wsgi.application'
 
+#Social login
+AUTHENTICATION_BACKENDS = (
+
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+
+)
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
@@ -109,12 +156,12 @@ WSGI_APPLICATION = 'ampleapi.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ampledb',
-        'USERNAME': 'Samuel',
-        'PASSWORD' : 'rekoll',
-        'HOST' : 'localhost',
-        'PORT' : '5433',
+          'ENGINE': 'django.db.backends.postgresql_psycopg2',
+          'NAME': 'ampledb',
+          'USER': 'postgres',
+          'PASSWORD' : 'rekoll',
+          'HOST' : 'localhost',
+          'PORT' : '5432',
 
     }
 }
@@ -165,27 +212,6 @@ db_from_env=dj_database_url.config()
 DATABASES['default'].update(db_from_env)
 
 STATIC_URL = '/static/'
-# STATICFILES_DIRS=[
-#     os.path.join(BASE_DIR, "static"),
-# ]
-#
-# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-# STATICFILES_STORAGE='whitenoise.django.GzipManifestStaticFilesStorage'
-
-
-#new code added for heroku deployment
-# LOGOUT_REDIRECT_URL = '/login/'
-# LOGIN_REDIRECT_URL = '/'
-#
-# CORS_REPLACE_HTTPS_REFERER = True
-# #HOST_SECURE = "https://"
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-# SECURE_SSL_REDIRECT = True
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
-# SECURE_HSTE_INCLUDE_SUBDOMAINS = True
-# SECURE_HSTE_SECONDS = 1000000
-# SECURE_FRAME_DENY = True
 
 
 #second test codes for media
@@ -199,56 +225,28 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media_cdn")
 #DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 
-##newly added for user authentication
-# Tell Django about the custom `User` model we created. The string
-# `authentication.User` tells Django we are referring to the `User` model in
-# the `authentication` module. This module is registered above in a setting
-# called `INSTALLED_APPS`.
+
 AUTH_USER_MODEL = 'authentication.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+
+
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+
+
+
     ),
+
+
 }
 
-# REST_FRAMEWORK = {
-#     'EXCEPTION_HANDLER': 'core.exceptions.core_exception_handler',
-#     'NON_FIELD_ERRORS_KEY': 'error',
-#
-#     'DEFAULT_AUTHENTICATION_CLASSES': (
-#         'authentication.backends.JWTAuthentication',
-#     ),
-#
-#     'DEFAULT_PERMISSION_CLASSES': (
-#              'rest_framework.permissions.IsAuthenticated',
-#     #         #'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-#          ),
-#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-#     'PAGE_SIZE': 20,
-# }
-
-
-# REST_FRAMEWORK = {
-#     'DEFAULT_PERMISSION_CLASSES': (
-#         'rest_framework.permissions.IsAuthenticated',
-#         #'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-#     ),
-#     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
-#     # 'DEFAULT_AUTHENTICATION_CLASSES': (
-#     #     'rest_framework_simplejwt.authentication.JWTAuthentication',
-#     #     'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-#     #     'rest_framework.authentication.SessionAuthentication',
-#     #     'rest_framework.authentication.BasicAuthentication',
-#     # ),
-# }
-
-WT_AUTH = {
+JWT_AUTH = {
     'JWT_ENCODE_HANDLER':
     'rest_framework_jwt.utils.jwt_encode_handler',
 
@@ -279,19 +277,3 @@ WT_AUTH = {
 
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
 }
-
-# REST_FRAMEWORK = {
-#     'DEFAULT_PERMISSION_CLASSES': (
-#         'rest_framework.permissions.IsAuthenticated',
-#         #'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-#     ),
-#     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
-#     # 'DEFAULT_AUTHENTICATION_CLASSES': (
-#     #     'rest_framework_simplejwt.authentication.JWTAuthentication',
-#     #     'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-#     #     'rest_framework.authentication.SessionAuthentication',
-#     #     'rest_framework.authentication.BasicAuthentication',
-#     # ),
-# }
-
-#django_heroku.settings(locals())

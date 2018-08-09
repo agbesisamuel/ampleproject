@@ -29,14 +29,13 @@ urlpatterns = [
     path('', admin.site.urls),
     url (r'^', include('restapi.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^auth/', include('authentication.urls')), #'
-    #url(r'^api/', include(('authentication.urls','authentication'), namespace='authentication')),
-    #url(r'^api/', include(('profiles.urls', 'profiles'), namespace='profiles')), #
 
-    # url(r'^apitoken/', TokenObtainPairView.as_view()),
-    # url(r'^apitokenrefresh/', TokenRefreshView.as_view()),
-    #url (r'^api/restapi', include('restapi.urls')),
+    url(r'^auth/', include('authentication.urls')), #'
+    
+    #Social login
+    url(r'^accounts/', include('allauth.urls')),
+
+
 ]#+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # for media

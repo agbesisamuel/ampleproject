@@ -11,6 +11,8 @@ from authentication.serializers import (
     LoginSerializer, RegistrationSerializer, UserSerializer,
 )
 
+
+
 class RegistrationAPIView(APIView):
     """
     Register a new user.

@@ -4,6 +4,11 @@ from django.contrib.auth import authenticate
 from authentication.models import User
 
 
+#Sending email
+from django.core.mail import send_mail, BadHeaderError
+from django.conf import settings
+from django.http import HttpResponse, HttpResponseRedirect
+
 ######
 class RegistrationSerializer(serializers.ModelSerializer):
     """Serializers registration requests and creates a new user."""
@@ -30,6 +35,15 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Use the `create_user` method we wrote earlier to create a new user.
+        #for email
+        email=validated_data.get('email', None)
+        subject ="Registering"
+        message ="Thanks for registering"
+        from_email = settings.EMAIL_HOST_USER
+        to_list = [email]
+
+        send_mail(subject, message, from_email, to_list, fail_silently=False)
+        ##
         return User.objects.create_user(**validated_data)
 
     def update(self, instance, validated_data):
@@ -112,6 +126,7 @@ class LoginSerializer(serializers.Serializer):
             'username': user.username,
             #'token': user.token
         }
+
 
 class UserSerializer(serializers.ModelSerializer):
     """Handles serialization and deserialization of User objects."""

@@ -7,7 +7,7 @@ from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin
 )
 from django.db import models
-
+       
 class UserManager(BaseUserManager):
     """
     Django requires that custom users define their own Manager class. By
@@ -63,6 +63,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     # Tells Django that the UserManager class defined above should manage
     # objects of this type.
     objects = UserManager()
+
+    def save(self, *args, **kwargs):
+        super(User, self).save(*args, **kwargs)
+        return self
 
     def __str__(self):
         """
