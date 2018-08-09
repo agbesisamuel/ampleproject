@@ -19,10 +19,10 @@ from pygments import highlight
 #A table of different key and app versions shall be held in this model
 class ApiData(models.Model):
     #user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE )
-    appid = models.AutoField(primary_key=True)
-    apikey = models.CharField(max_length=100, blank=False)
-    apVersion = models.CharField(max_length=100, blank=False)
-    created = models.DateTimeField(auto_now_add=True)
+    appid = models.AutoField(primary_key=True, verbose_name="API Id")
+    apikey = models.CharField(max_length=100, blank=False, verbose_name="API Key")
+    apVersion = models.CharField(max_length=100, blank=False, verbose_name="API Version")
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Date Created")
 
     class Meta:
         ordering = ('created',)
@@ -36,13 +36,13 @@ class ApiData(models.Model):
 class UseraccountData(models.Model):
     #user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE )
     #user = models.OneToOneField(user)
-    userid = models.AutoField(primary_key=True)
-    fullname = models.CharField(max_length=50, blank=False)
-    email = models.EmailField()
-    password = models.CharField(max_length=15, blank=False)
-    phonenumber = models.CharField(max_length=15, blank=True)
-    apikey = models.CharField(max_length=100, blank=False)
-    created = models.DateTimeField(auto_now_add=True)
+    userid = models.AutoField(primary_key=True, verbose_name="User ID")
+    fullname = models.CharField(max_length=50, blank=False, verbose_name="Full Name")
+    email = models.EmailField(verbose_name="Email Address")
+    password = models.CharField(max_length=15, blank=False, verbose_name="Password")
+    phonenumber = models.CharField(max_length=15, blank=True, verbose_name="Phone Number")
+    apikey = models.CharField(max_length=100, blank=False, verbose_name="Api Key")
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Date Created")
 
     class Meta:
         ordering = ('fullname',)
@@ -53,10 +53,10 @@ class UseraccountData(models.Model):
          return '%s %s' % (self.userid, self.fullname)
 
 class TokenData(models.Model):
-    tokenid = models.AutoField(primary_key=True)
-    token = models.CharField(max_length=100, blank=False)
-    created = models.DateTimeField(auto_now_add=True)
-    expiry = models.DateTimeField()
+    tokenid = models.AutoField(primary_key=True, verbose_name="Token ID")
+    token = models.CharField(max_length=100, blank=False, verbose_name="Token")
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Date Created")
+    expiry = models.DateTimeField(verbose_name="Expiring Date")
     user = models.ForeignKey(UseraccountData, on_delete=models.CASCADE)
 
     class Meta:
@@ -68,15 +68,6 @@ class TokenData(models.Model):
         return '%s %s' % (self.tokenid, self.token)
 
 class VenueData(models.Model):
-    PRICE_RANGE = (
-        ('0', 'FREE'),
-        ('1', 'INEXPENSIVE'),
-        ('2', 'MODERATE'),
-        ('3', 'EXPENSIVE'),
-        ('4', 'VERY EXPENSIVE'),
-    )
-
-
     venueid = models.AutoField(primary_key=True, verbose_name="Venue ID")
     googleplacesId = models.CharField(max_length=100, blank=True, verbose_name="Google Place ID")
     OSMID = models.CharField(max_length=100, blank=True, verbose_name="OSM ID")
@@ -114,11 +105,11 @@ class VenueData(models.Model):
         return '%s %s' % (self.venueid, self.name)
 
 class PhotoData(models.Model):
-    photoid = models.AutoField(primary_key=True)
-    imageobject = models.ImageField(upload_to="venues/%Y/%m/", blank=True, null=True)
-    width = models.IntegerField()
-    height = models.IntegerField()
-    created = models.DateTimeField(auto_now_add=True)
+    photoid = models.AutoField(primary_key=True, verbose_name="Photo ID")
+    imageobject = models.ImageField(upload_to="venues/%Y/%m/", blank=True, null=True, verbose_name="Image")
+    width = models.IntegerField(verbose_name="Image width")
+    height = models.IntegerField(verbose_name="Image height")
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Date Created")
     venue = models.ForeignKey(VenueData, related_name='venuephoto', on_delete=models.CASCADE)
 
     class Meta:
