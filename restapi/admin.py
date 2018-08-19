@@ -47,7 +47,7 @@ class VenueAdmin(admin.ModelAdmin):
 
 
     fieldsets = (
-        ('Venu Infomation', {
+        ('Venue Infomation', {
             'fields' : [('name', 'description'), ('streetname','city'),
                        ('postcode','neighborhood'),('loc_lat', 'loc_lng', 'capacity'),
                        ('type','activities'),('wheelchairavail', 'outdoorsitting'),
