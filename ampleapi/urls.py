@@ -31,21 +31,17 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     url(r'^auth/', include('authentication.urls')), #'
-    
+
     #Social login
     url(r'^accounts/', include('allauth.urls')),
 
 
-]#+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
 
 # for media
-if settings.DEBUG:
-    urlpatterns += [
-        url(r'^media/(?P<path>.*)$', serve, {
-            'document_root' : settings.MEDIA_ROOT,
-        }),
-    ]
-
 # if settings.DEBUG:
-#     urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT,)
-#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT,)
+#     urlpatterns += [
+#         url(r'^media/(?P<path>.*)$', serve, {
+#             'document_root' : settings.MEDIA_ROOT,
+#         }),
+#     ]
