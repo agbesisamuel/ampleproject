@@ -213,7 +213,7 @@ db_from_env=dj_database_url.config()
 DATABASES['default'].update(db_from_env)
 
 #uncomment when done
-STATIC_URL = '/static/'
+#STATIC_URL = '/static/'
 
 
 #second test codes for media
