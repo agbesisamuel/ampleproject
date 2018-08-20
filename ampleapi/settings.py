@@ -34,8 +34,8 @@ SECRET_KEY = ''
 # DEBUG = False
 DEBUG = True
 
-#ALLOWED_HOSTS = ['aempleapp.herokuapp.com']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['aempleapp.herokuapp.com']
+#ALLOWED_HOSTS = []
 
 #For email
 EMAIL_BACKEND       = EMAIL_BACKEND
