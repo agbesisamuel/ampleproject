@@ -20,8 +20,8 @@ from restapi.email_info import EMAIL_USE_TLS, EMAIL_HOST, EMAIL_HOST_USER, EMAIL
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 #path to store media files
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL ='/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_URL ='/media/'
 
 
 # Quick-start development settings - unsuitable for production
@@ -34,8 +34,8 @@ SECRET_KEY = ''
 # DEBUG = False
 DEBUG = True
 
-ALLOWED_HOSTS = ['aempleapp.herokuapp.com']
-#ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = ['aempleapp.herokuapp.com']
+ALLOWED_HOSTS = []
 
 #For email
 EMAIL_BACKEND       = EMAIL_BACKEND
@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'django_extensions',
+    'storages',
 
     #Social login
 
@@ -211,29 +212,36 @@ import dj_database_url
 db_from_env=dj_database_url.config()
 DATABASES['default'].update(db_from_env)
 
+#uncomment when done
 STATIC_URL = '/static/'
 
 
 #second test codes for media
 #STATIC_ROOT = os.path.join(BASE_DIR, "static_cdn")
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn")
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media_cdn")
 
-#MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media_cdn")
-#MEDIA_ROOT = os.path.join(BASE_DIR, 'static_cdn', 'media_root')
-
-#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn")
+# MEDIA_URL = "/media/"
+# MEDIA_ROOT = os.path.join(BASE_DIR, "media_cdn")
 
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
-AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
-AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME", "")
-AWS_QUERYSTRING_AUTH = False
-AWS_S3_CUSTOM_DOMAIN = os.environ.get("AWS_S3_CUSTOM_DOMAIN", "")
-MEDIA_ROOT = os.environ.get("MEDIA_URL", "")
-MEDIA_URL = '/media/'
+#amazon s3
+AWS_ACCESS_KEY_ID = 'AKIAI5XM654H7J2UUOCQ'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'aempleapp-static'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_LOCATION = 'static'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'ampleapi/static'),
+]
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'ampleapi.storage_backends.MediaStorage'
+
+#
 
 
 AUTH_USER_MODEL = 'authentication.User'
