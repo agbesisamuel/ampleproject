@@ -4,8 +4,11 @@ from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 
 
-from restapi.models import ApiData, UseraccountData, VenueData, TokenData, PhotoData #, OpeningPeriods
-from restapi.serializers import apiSerializer, useraccountSerializer, venueSerializer, tokenSerializer, photoSerializer #, openingPeriodsSerializer
+from restapi.models import ApiData, UseraccountData, VenueData, TokenData, ActivityData, VenueTypeData, MenuData, StartPrice
+from restapi.models import TimePhase, Mood, OpenHours
+from restapi.serializers import apiSerializer, useraccountSerializer, venueSerializer, tokenSerializer #, photoSerializer
+from restapi.serializers import activitydataSerializer, venuetypedataSerializer, menudataSerializer, startpriceSerializer
+from restapi.serializers import moodSerializer, timephaseSerializer, openhoursSerializer
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -52,6 +55,155 @@ def sendSimpleEmail(request,emailto):
    res = send_mail("hello paul", "comment tu vas?", "ampleappdk@gmail.com", ['agbesisamuel@yahoo.com'])
    return HttpResponse('%s'%res)
 ###
+
+## ActivityData views
+class ActivityDataListView(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+
+    queryset = ActivityData.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = activitydataSerializer
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,) #testing [permission]
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+class ActivityDataDetailView(mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    mixins.DestroyModelMixin,
+                    generics.GenericAPIView):
+
+    queryset = ActivityData.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = activitydataSerializer
+
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+## VenueTypeData views
+class VenueTypeDataListView(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+
+    queryset = VenueTypeData.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = venuetypedataSerializer
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,) #testing [permission]
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+class VenueTypeDataDetailView(mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    mixins.DestroyModelMixin,
+                    generics.GenericAPIView):
+
+    queryset = VenueTypeData.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = venuetypedataSerializer
+
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+
+## VenueTypeData views
+class MenuDataDataListView(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+
+    queryset = MenuData.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = menudataSerializer
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,) #testing [permission]
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+class MenuDataDetailView(mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    mixins.DestroyModelMixin,
+                    generics.GenericAPIView):
+
+    queryset = MenuData.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = menudataSerializer
+
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+#################
+
+
+## StartPrice views
+class StartPriceDataListView(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+
+    queryset = StartPrice.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = startpriceSerializer
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,) #testing [permission]
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+class StartPriceDetailView(mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    mixins.DestroyModelMixin,
+                    generics.GenericAPIView):
+
+    queryset = StartPrice.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = startpriceSerializer
+
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
 
 #for API Key Table
 class ApiKeyListView(mixins.ListModelMixin,
@@ -174,7 +326,7 @@ class VenueSearchDetailsView( mixins.UpdateModelMixin, mixins.DestroyModelMixin,
     permission_classes = (IsAuthenticated,)
     serializer_class = venueSerializer
     filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('googleplacesId','foursquareplacesId','venueid','name', 'open_now', 'streetname', 'price_level','rating', 'city')
+    filter_fields = ('googleplacesId','venueid','name','streetname','city','loc_lat','loc_lng')
     #serializer_class = venueSerializer
     def get(self, request, *args, **kwargs): #search records not loading into form
         return self.list(request, *args, **kwargs)
@@ -221,13 +373,13 @@ class VenueDataDetailView(mixins.RetrieveModelMixin,
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
-## Photo views
-class PhotoDataListView(mixins.ListModelMixin,
+# Time phase
+class TimePhaseListView(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
                   generics.GenericAPIView):
 
-    queryset = PhotoData.objects.all()
-    serializer_class = photoSerializer
+    queryset = TimePhase.objects.all()
+    serializer_class = timephaseSerializer
     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,) #testing [permission]
 
     def get(self, request, *args, **kwargs):
@@ -237,14 +389,13 @@ class PhotoDataListView(mixins.ListModelMixin,
         return self.create(request, *args, **kwargs)
 
 
-class PhotoDataDetailView(mixins.RetrieveModelMixin,
+class TimePhaseDetailView(mixins.RetrieveModelMixin,
                     mixins.UpdateModelMixin,
                     mixins.DestroyModelMixin,
                     generics.GenericAPIView):
 
-    queryset = PhotoData.objects.all()
-    serializer_class = photoSerializer
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,) #testing [permission]
+    queryset = TimePhase.objects.all()
+    serializer_class = timephaseSerializer
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -254,79 +405,110 @@ class PhotoDataDetailView(mixins.RetrieveModelMixin,
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+###
 
 
-## for test login and authenticate
-# class RegistrationAPIView(APIView):
-#     # Allow any user (authenticated or not) to hit this endpoint.
-#     permission_classes = (AllowAny,)
-#     renderer_classes = (UserJSONRenderer,)
-#     serializer_class = RegistrationSerializer
+
+#Mood view
+class MoodListView(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+
+    queryset = Mood.objects.all()
+    serializer_class = moodSerializer
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,) #testing [permission]
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+class MoodDetailView(mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    mixins.DestroyModelMixin,
+                    generics.GenericAPIView):
+
+    queryset = Mood.objects.all()
+    serializer_class = moodSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+###
+
+
+#Open hours
+class OpenHoursListView(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+
+    queryset = OpenHours.objects.all()
+    serializer_class = openhoursSerializer
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,) #testing [permission]
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+class OpenHoursDetailView(mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    mixins.DestroyModelMixin,
+                    generics.GenericAPIView):
+
+    queryset = OpenHours.objects.all()
+    serializer_class = openhoursSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+###
+
+
+## Photo views
+# class PhotoDataListView(mixins.ListModelMixin,
+#                   mixins.CreateModelMixin,
+#                   generics.GenericAPIView):
 #
-#     def post(self, request):
-#         user = request.data.get('user', {})
+#     queryset = PhotoData.objects.all()
+#     serializer_class = photoSerializer
+#     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,) #testing [permission]
 #
-#         # The create serializer, validate serializer, save serializer pattern
-#         # below is common and you will see it a lot throughout this course and
-#         # your own work later on. Get familiar with it.
-#         serializer = self.serializer_class(data=user)
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save()
+#     def get(self, request, *args, **kwargs):
+#         return self.list(request, *args, **kwargs)
 #
-#         return Response(serializer.data, status=status.HTTP_201_CREATED)
+#     def post(self, request, *args, **kwargs):
+#         return self.create(request, *args, **kwargs)
 #
 #
-# class LoginAPIView(APIView):
-#     permission_classes = (AllowAny,)
-#     renderer_classes = (UserJSONRenderer,)
-#     serializer_class = LoginSerializer
+# class PhotoDataDetailView(mixins.RetrieveModelMixin,
+#                     mixins.UpdateModelMixin,
+#                     mixins.DestroyModelMixin,
+#                     generics.GenericAPIView):
 #
-#     def post(self, request):
-#         user = request.data.get('user', {})
+#     queryset = PhotoData.objects.all()
+#     serializer_class = photoSerializer
+#     #permission_classes = (permissions.IsAuthenticatedOrReadOnly,) #testing [permission]
 #
-#         # Notice here that we do not call `serializer.save()` like we did for
-#         # the registration endpoint. This is because we don't actually have
-#         # anything to save. Instead, the `validate` method on our serializer
-#         # handles everything we need.
-#         serializer = self.serializer_class(data=user)
-#         serializer.is_valid(raise_exception=True)
+#     def get(self, request, *args, **kwargs):
+#         return self.retrieve(request, *args, **kwargs)
 #
-#         return Response(serializer.data, status=status.HTTP_200_OK)
+#     def put(self, request, *args, **kwargs):
+#         return self.update(request, *args, **kwargs)
 #
-#
-# class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
-#     permission_classes = (IsAuthenticated,)
-#     renderer_classes = (UserJSONRenderer,)
-#     serializer_class = UserSerializer
-#
-#     def retrieve(self, request, *args, **kwargs):
-#         # There is nothing to validate or save here. Instead, we just want the
-#         # serializer to handle turning our `User` object into something that
-#         # can be JSONified and sent to the client.
-#         serializer = self.serializer_class(request.user)
-#
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-#
-#     def update(self, request, *args, **kwargs):
-#         user_data = request.data.get('user', {})
-#
-#         serializer_data = {
-#             'username': user_data.get('username', request.user.username),
-#             'email': user_data.get('email', request.user.email),
-#
-#             'profile': {
-#                 'bio': user_data.get('bio', request.user.profile.bio),
-#                 'image': user_data.get('image', request.user.profile.image)
-#             }
-#         }
-#
-#         # Here is that serialize, validate, save pattern we talked about
-#         # before.
-#         serializer = self.serializer_class(
-#             request.user, data=serializer_data, partial=True
-#         )
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save()
-#
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-##
+#     def delete(self, request, *args, **kwargs):
+#         return self.destroy(request, *args, **kwargs)

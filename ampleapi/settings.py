@@ -19,10 +19,6 @@ from restapi.email_info import EMAIL_USE_TLS, EMAIL_HOST, EMAIL_HOST_USER, EMAIL
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-#path to store media files
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# MEDIA_URL ='/media/'
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -134,26 +130,6 @@ AUTHENTICATION_BACKENDS = (
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-#DATABASES = ('host=postgres://bibjvpeqexgdou:ccd93e4b9b37053b8b1ab7708ec52133326407d91475d7aa1134c38776775560@ec2-54-83-37-223.compute-1.amazonaws.com:5432/d2lahmntq0kksb:sslmode=require')
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'ddr3s102ja8fbv',
-#         'USERNAME': 'elessnxxodqasd',
-#         'PASSWORD' : '9f7ba44e313743fe8226aed8b3234bfea66948ade13797d1a428bcbdff6dec48',
-#         'HOST' : 'ec2-54-204-46-236.compute-1.amazonaws.com',
-#         'PORT' : '5432',
-#      }
-# }
-
-# DATABASES = {
-#     'default': {
-#
-#     }
-# }
-
 
 DATABASES = {
     'default': {

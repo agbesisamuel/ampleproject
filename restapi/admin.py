@@ -1,24 +1,46 @@
 from django.contrib import admin
-from .models import ApiData, UseraccountData, VenueData, TokenData, PhotoData, VenueTypeData, MenuData, ActivityData, OpenHours
+from .models import ApiData, UseraccountData, VenueData, TokenData, VenueTypeData, MenuData, ActivityData, StartPrice # PhotoData,
+from .models import OpenHours, TimePhase, Mood
 
 
 # Register your models here.
 #admin.site.register(OpenHours)
 admin.site.register(ApiData)
 #admin.site.register(VenueData)
-admin.site.register(PhotoData)
+#admin.site.register(PhotoData)
 
 
 
-class OpenHoursAdmin(admin.ModelAdmin):
-    #pass
-    list_display = ('venue', 'days', 'open', 'closed', 'open_alt',
-                    'closed_alt')
-    fields = ['venue', 'days', ('open', 'closed'), ('open_alt','closed_alt')] #controls how the fields are displayed
-admin.site.register(OpenHours, OpenHoursAdmin)
+
+
+# class OpenHoursAdmin(admin.ModelAdmin):
+#     #pass
+#     list_display = ('venue', 'days', 'open', 'closed', 'open_alt',
+#                     'closed_alt')
+#     fields = ['venue', 'days', ('open', 'closed'), ('open_alt','closed_alt')] #controls how the fields are displayed
+# admin.site.register(OpenHours, OpenHoursAdmin)
 
 
 # Register the Admin classes for VenueTypeData using the decorator
+@admin.register(StartPrice)
+class StartPriceAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(OpenHours)
+class OpenHourseAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(TimePhase)
+class TimePhaseAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Mood)
+class MoodAdmin(admin.ModelAdmin):
+    pass
+
+
+
 @admin.register(VenueTypeData)
 class VenueTypeDataAdmin(admin.ModelAdmin):
     pass
@@ -43,54 +65,25 @@ class VenueAdmin(admin.ModelAdmin):
     #                 'micro_brewery','price_start','hits', 'managername', 'email','website','phonenumber'
     #                 )
     list_filter = ('venueid','name', 'description')
-    list_display = ('name', 'description','streetname', 'city','postcode', 'verified')
+    list_display = ('name', 'description','streetname', 'city','postcode', 'display_type', 'verified','display_activities')
 
 
     fieldsets = (
         ('Venue Infomation', {
             'fields' : [('name', 'description'), ('streetname','city'),
-                       ('postcode','neighborhood'),('loc_lat', 'loc_lng', 'capacity'),
+                       ('postcode','loc_lat', 'loc_lng', 'capacity'),
                        ('type','activities'),('wheelchairavail', 'outdoorsitting'),
-                       ('smookingavailability','micro_brewery'),('menu','price_start')
+                       ('smookingavailability','micro_brewery'), ('note_to_admin')
                       ]
+            }),
+            ('Photo Gallery', {
+                    'fields' : [('back_image_one', 'back_image_two'),
+                                ('fore_image_one','fore_image_two')
+
+                                ]
             }),
             ('Contact Info', {
                     'fields' : [('managername', 'email'),('website','phonenumber'),
                               ('verified')]
             }),
     )
-
-
-    # @admin.register(BookInstance)
-    # class BookInstanceAdmin(admin.ModelAdmin):
-    #     list_filter = ('status', 'due_back')
-    #     #grouping fields
-    #     fieldsets = (
-    #         (None, {
-    #             'fields': ('book', 'imprint', 'id')
-    #         }),
-    #         ('Availability', {
-    #             'fields': ('status', 'due_back')
-    #         }),
-    #     )
-
-
-    # fields = [('name', 'description'),('streetname', 'city'),
-    #           ('postcode','neighborhood'),
-    #           ('loc_lat', 'loc_lng'),('display_menu', 'display_type','display_activities'),
-    #            ('wheelchairavail', 'capacity', 'outdoorsitting'),
-    #            ('smookingavailability','micro_brewery'),
-    #            ('price_start','hits'), ('managername', 'email'),('website','phonenumber')
-    #            ] #controls how the fields are displayed
-
-    # fieldsets = (
-    #     ('Venu Infomation', {
-    #         'fields': ('name', 'description')#, ('streetname', 'city')
-    #                   # ('postcode', 'neighborhood'), ('loc_lat', 'loc_lng'),
-    #                   # ('muen', 'type'), ('capacity', 'wheelchairavail'),
-    #                   # ('capacity', 'wheelchairavail','outdoorsitting','smookingavailabilitymicro_brewery),
-    #                   # ('price_start','hits')
-    #     }),
-    #     ('Contact Info', {
-    #         'fields': ('managername', 'email')#, ('website','phonenumber')
-    #     }),
